@@ -1,0 +1,14 @@
+git-jenkins-ansible-docker-cicd/
+├─ app/
+│  ├─ src/
+│  │  └─ main.py              # or index.js, etc.
+│  ├─ tests/
+│  │  └─ test_sample.py
+│  ├─ requirements.txt        # or package.json
+│  └─ Dockerfile
+├─ jenkins/
+│  └─ Jenkinsfile             # CI/CD pipeline definition
+├─ ansible/
+│  ├─ inventory.ini           # Target servers
+│  └─ deploy_docker.yml       # Playbook to deploy docker container
+└─ README.md
