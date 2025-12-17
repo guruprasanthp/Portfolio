@@ -1,0 +1,46 @@
+devops-linux-ansible-release-ops/
+├─ README.md
+├─ docs/
+│  ├─ architecture.md
+│  ├─ release-runbook.md
+│  ├─ incident-triage.md
+│  ├─ security-patching.md
+│  ├─ monitoring-logging.md
+│  ├─ networking-cheatsheet.md
+│  └─ mysql-ops.md
+├─ ansible/
+│  ├─ inventories/
+│  │  ├─ dev/hosts.ini
+│  │  └─ prod/hosts.ini
+│  ├─ group_vars/
+│  │  └─ all.yml
+│  ├─ playbooks/
+│  │  ├─ linux_baseline.yml
+│  │  ├─ security_patching.yml
+│  │  ├─ monitoring_agent.yml
+│  │  ├─ mysql_backup.yml
+│  │  └─ php_app_deploy.yml
+│  └─ roles/
+│     ├─ common/
+│     │  ├─ tasks/main.yml
+│     │  └─ handlers/main.yml
+│     ├─ security/
+│     │  └─ tasks/main.yml
+│     ├─ monitoring/
+│     │  └─ tasks/main.yml
+│     ├─ mysql/
+│     │  ├─ tasks/main.yml
+│     │  └─ templates/my.cnf.j2
+│     └─ php/
+│        ├─ tasks/main.yml
+│        └─ templates/vhost.conf.j2
+├─ scripts/
+│  ├─ healthcheck.sh
+│  ├─ log_review.sh
+│  ├─ network_triage.sh
+│  ├─ mysql_backup.sh
+│  └─ rollback.sh
+├─ .github/
+│  └─ workflows/
+│     └─ ci.yml
+└─ CHANGELOG.md
