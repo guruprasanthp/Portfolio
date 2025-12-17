@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install ansible
+
+      - name: Ansible syntax check
+        run: |
+          cd ansible
+          ansible-playbook --syntax-check playbooks/linux_baseline.yml -i inventories/dev/hosts.ini
+          ansible-playbook --syntax-check playbooks/security_patching.yml -i inventories/dev/hosts.ini
+
+      - name: Shellcheck (optional)
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          shellcheck scripts/*.sh
