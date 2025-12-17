@@ -1,0 +1,44 @@
+---
+- name: Security patching (Linux)
+  hosts: linux_servers
+  become: true
+  vars:
+    reboot_if_required: true
+
+  tasks:
+    - name: Update apt cache (Debian/Ubuntu)
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Apply security updates (Debian/Ubuntu)
+      apt:
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Apply updates (RHEL/CentOS)
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Check if reboot required (Debian)
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+      when: ansible_os_family == "Debian"
+
+    - name: Reboot if required
+      reboot:
+        reboot_timeout: 900
+      when: reboot_if_required and (ansible_os_family == "RedHat" or reboot_required.stat.exists | default(false))
+
+    - name: Verify no failed services
+      command: systemctl --failed
+      register: failed_services
+      changed_when: false
+
+    - name: Print failed services output
+      debug:
+        var: failed_services.stdout
